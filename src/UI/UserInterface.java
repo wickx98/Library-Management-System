@@ -12,6 +12,14 @@ public interface UserInterface {
         void removeBook();
         void exit();
         void start();
+         void borrowBook();
+
+
+        void returnBook();
+
+        void displayBorrowedBooks();
+
+        void displayOverdueBooks();
 
 
 }

@@ -25,6 +25,7 @@ public class Library {
     }
     public void addBook(Book book) {
         books.put(book.getId(), book);
+
     }
 
     public void removeBook(String bookId) {

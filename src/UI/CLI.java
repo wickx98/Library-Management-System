@@ -1,17 +1,26 @@
 package UI;
 
+import Commands.displayBooks;
+import Storage.DatabaseBookStorage;
+import Storage.InMemoryBookStorage;
 import Store.Book;
 import Store.Library;
 
 import java.util.Scanner;
+import Commands.addBook;
+import  Commands.removeBook;
 
 public class CLI implements UserInterface {
     private Library library;
     private Scanner scanner;
 
+    DatabaseBookStorage Database = new DatabaseBookStorage();
+    InMemoryBookStorage inMemory = new InMemoryBookStorage();
+
     public CLI() {
         library = new Library();
         scanner = new Scanner(System.in);
+
     }
 
     @Override
@@ -24,6 +33,8 @@ public class CLI implements UserInterface {
         System.out.println("4. Search for a book by title");
         System.out.println("5. Remove a book by ID");
         System.out.println("Enter 'exit' to quit the program.");
+
+
     }
 
     @Override
@@ -40,14 +51,16 @@ public class CLI implements UserInterface {
         String publishedDate = scanner.nextLine();
 
         Book book = new Book(id, title, author, publisher, publishedDate);
-        library.addBook(book);
-        System.out.println("Book added successfully!");
 
+        library.addBook(book);
+
+        System.out.println("Book added successfully!");
 
     }
 
     @Override
     public void displayBooks() {
+
         library.displayBooks();
     }
 
@@ -69,6 +82,7 @@ public class CLI implements UserInterface {
     public void removeBook() {
         System.out.print("Enter the book ID: ");
         String removeId = scanner.nextLine();
+
         library.removeBook(removeId);
         System.out.println("Book removed successfully!");
     }

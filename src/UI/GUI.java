@@ -166,19 +166,19 @@ public class GUI implements  UserInterface {
 
     }
 
-    private void borrowBook(){
+    public void borrowBook(){
 
     }
 
-    private void returnBook(){
+    public void returnBook(){
 
     }
 
-    private void displayBorrowedBooks(){
+    public void displayBorrowedBooks(){
 
     }
 
-    private void displayOverdueBooks(){
+    public void displayOverdueBooks(){
 
     }
 }
