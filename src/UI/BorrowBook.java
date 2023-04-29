@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import Storage.InMemoryBorrowedBookStorage;
 import Store.BorrowedBook;
 
 public class BorrowBook extends JFrame {
@@ -83,10 +85,11 @@ public class BorrowBook extends JFrame {
         BorrowedBook borrowedBook = new BorrowedBook(idField.getText(),borrowerNameField.getText(),
                 dateBorrowedField.getText(),dueDateField.getText(),"0");
 
-        Database.borrowedBooks.add(borrowedBook);
+        InMemoryBorrowedBookStorage inMemoryBorrowedBookStorage = new InMemoryBorrowedBookStorage();
+        inMemoryBorrowedBookStorage.addBorrowedBook(borrowedBook);
         new MessageBox("Borrowing Successful");
-        new MainDashboard();
-
+        UserInterface ui = new GUI();
+        ui.start();
         this.dispose();
     }
 }

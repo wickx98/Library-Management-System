@@ -14,4 +14,3 @@ public class MessageBox extends Frame {
             JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.INFORMATION_MESSAGE);
         }
     }
-}
