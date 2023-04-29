@@ -10,7 +10,9 @@ import java.util.Map;
 public class InMemoryBookStorage implements BookStorage {
 
     public InMemoryBookStorage() {
-        Database.books = new HashMap<>();
+        if(Database.books == null) {
+            Database.books = new HashMap<>();
+        }
     }
 
     @Override

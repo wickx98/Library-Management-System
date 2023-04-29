@@ -1,14 +1,11 @@
 package UI;
 
-import Commands.displayBooks;
 import Storage.DatabaseBookStorage;
 import Storage.InMemoryBookStorage;
 import Store.Book;
 import Store.Library;
 
 import java.util.Scanner;
-import Commands.addBook;
-import  Commands.removeBook;
 
 public class CLI implements UserInterface {
     private Library library;

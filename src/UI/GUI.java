@@ -25,7 +25,13 @@ public class GUI implements  UserInterface {
 
     @Override
     public void addBook() {
-
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new AddBook();
+            }
+        });
+        exit();
     }
 
     @Override
