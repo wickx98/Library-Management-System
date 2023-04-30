@@ -1,5 +1,6 @@
 package Storage;
 
+import Store.Book;
 import Store.BorrowedBook;
 
 import java.util.HashMap;
@@ -28,4 +29,6 @@ public class InMemoryBorrowedBookStorage implements BorrowedBookStorage{
     public HashMap<String,BorrowedBook> getAll(){
         return Database.borrowedBooks;
     }
+
+
 }

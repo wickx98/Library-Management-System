@@ -170,24 +170,22 @@ public class CLI implements UserInterface {
             if (book.isAvailable(bookId)) {
                 System.out.print("Enter your name: ");
                 String borrowerName = scanner.nextLine();
-                System.out.print("Enter the date borrowed (dd/mm/yyyy): ");
+
+                System.out.print("Enter the date Borrowed: ");
                 String dateBorrowed = scanner.nextLine();
-                System.out.print("Enter the number of days to borrow: ");
-                int daysToBorrow = scanner.nextInt();
 
+                System.out.print("Enter the dueDate: ");
+                String dueDate = scanner.nextLine();
                 // calculate the due date
-                LocalDate borrowedDate = LocalDate.parse(dateBorrowed, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                LocalDate dueDate = borrowedDate.plusDays(daysToBorrow);
 
-                // update the book availability and due date
-                book.setAvailable(false);
-                book.setDueDate(dueDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
                 BorrowedBook borrowedBook = new BorrowedBook(bookId,borrowerName,dateBorrowed,dueDate.toString(),"0");
                 // add the book to the borrowed books HashMap
                 BorrowedBookStorage storage = new InMemoryBorrowedBookStorage();
 
                 storage.addBorrowedBook(borrowedBook);
+
+                //remove book in book list
 
                 System.out.println("Book borrowed successfully!");
             } else {
@@ -206,6 +204,14 @@ public class CLI implements UserInterface {
 
     @Override
     public void displayBorrowedBooks() {
+
+        InMemoryBorrowedBookStorage bookStorage = new InMemoryBorrowedBookStorage();
+        bookStorage.getAll();
+
+        for(Map.Entry<String,BorrowedBook> entry : bookStorage.getAll().entrySet() ){
+            System.out.println("Display Borrowed Books /n");
+            System.out.println(entry.getValue().getBookId());
+        }
 
     }
 
