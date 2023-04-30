@@ -7,7 +7,7 @@ public class UIFactory {
         if(args.length > 0 && args[0].equals("CLI")){
             ui = new CLI();
         }else{
-            ui = new CLI();
+            ui = new GUI();
         }
 
         return ui;

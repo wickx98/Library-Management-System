@@ -38,6 +38,8 @@ public class GUI implements  UserInterface {
     private HashMap<String, BorrowedBook> borrowed;
     private DefaultTableModel model;
 
+    final String[] columnNames = {"ID", "Title", "Author", "Publisher", "Published Date"};
+
     @Override
     public void displayMenu() {
 
@@ -59,13 +61,14 @@ public class GUI implements  UserInterface {
         getBooks();
         booksView();
 
-        model = new DefaultTableModel();
+        DefaultTableModel newModel = new DefaultTableModel(columnNames,0);
         List<Book> bookList =new ArrayList<>(books.values());
         for(Book book : bookList){
             Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
-            model.addRow(rowData);
+            newModel.addRow(rowData);
         }
-        table.setModel(model);
+        table.setModel(newModel);
+        model = newModel;
     }
 
     @Override

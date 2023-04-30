@@ -1,5 +1,6 @@
 import Storage.InMemoryBookStorage;
 import Store.Book;
+import Store.FileReader;
 import Store.Library;
 import UI.CLI;
 import UI.GUI;
@@ -11,9 +12,9 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-
-            UserInterface ui = UIFactory.UserInterfaceFactory(args);
-            ui.start();
+        FileReader reader = new FileReader();
+        UserInterface ui = UIFactory.UserInterfaceFactory(args);
+        ui.start();
 
         }
     }
