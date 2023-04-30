@@ -30,6 +30,10 @@ public class InMemoryBookStorage implements BookStorage {
         Database.books.remove(bookId);
     }
 
+    public HashMap<String,Book> getAllBooks(){
+        return Database.books;
+    }
+
     public void displayBooks() {
         List<Book> bookList = new ArrayList<>(Database.books.values());
 

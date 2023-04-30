@@ -27,4 +27,8 @@ public class InMemoryBorrowedBookStorage implements BorrowedBookStorage{
     public void removeBorrowedBook(String bookId) {
         Database.borrowedBooks.remove(bookId);
     }
+
+    public HashMap<String,BorrowedBook> getAll(){
+        return Database.borrowedBooks;
+    }
 }

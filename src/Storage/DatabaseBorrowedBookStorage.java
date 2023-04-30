@@ -15,6 +15,6 @@ public class DatabaseBorrowedBookStorage implements BorrowedBookStorage{
 
     @Override
     public void removeBorrowedBook(String bookId) {
-        
+
     }
 }

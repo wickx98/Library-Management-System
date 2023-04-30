@@ -1,9 +1,24 @@
 package UI;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.*;
+
+import Storage.BookStorage;
+import Storage.BorrowedBookStorage;
+import Storage.InMemoryBookStorage;
+import Storage.InMemoryBorrowedBookStorage;
+import Store.Book;
+import Store.BorrowedBook;
 
 public class GUI implements  UserInterface {
 
@@ -17,6 +32,11 @@ public class GUI implements  UserInterface {
     private JButton displayBorrowedBooksButton;
     private JButton displayOverdueBooksButton;
     private JTable table;
+    private boolean bookView;
+    private boolean borrowedBookView;
+    private HashMap<String,Book> books;
+    private HashMap<String, BorrowedBook> borrowed;
+    private DefaultTableModel model;
 
     @Override
     public void displayMenu() {
@@ -36,7 +56,16 @@ public class GUI implements  UserInterface {
 
     @Override
     public void displayBooks() {
+        getBooks();
+        booksView();
 
+        model = new DefaultTableModel();
+        List<Book> bookList =new ArrayList<>(books.values());
+        for(Book book : bookList){
+            Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
+            model.addRow(rowData);
+        }
+        table.setModel(model);
     }
 
     @Override
@@ -51,7 +80,14 @@ public class GUI implements  UserInterface {
 
     @Override
     public void removeBook() {
+        int rowIndex = table.getSelectedRow();
+        String id = model.getValueAt(rowIndex,0).toString();
+        Book book = books.get(id);
 
+        model.removeRow(rowIndex);
+        BookStorage storage = new InMemoryBookStorage();
+        storage.removeBook(id);
+        displayBooks();
     }
 
     @Override
@@ -61,6 +97,8 @@ public class GUI implements  UserInterface {
 
     @Override
     public void start() {
+        bookView = false;
+        borrowedBookView = false;
         frame = new JFrame();
         frame.setTitle("Library Management System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,7 +121,7 @@ public class GUI implements  UserInterface {
         removeBookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                removeBook();
+                runRemoveBook();
             }
         });
         removeBookPanel.add(removeBookButton);
@@ -173,18 +211,107 @@ public class GUI implements  UserInterface {
     }
 
     public void borrowBook(){
-
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new BorrowBook();
+            }
+        });
+        frame.dispose();
     }
 
     public void returnBook(){
+        int rowIndex = table.getSelectedRow();
+        String id = model.getValueAt(rowIndex,0).toString();
+        Book book = books.get(id);
 
+        model.removeRow(rowIndex);
+        BorrowedBookStorage storage = new InMemoryBorrowedBookStorage();
+        storage.removeBorrowedBook(id);
+        displayBorrowedBooks();
     }
 
     public void displayBorrowedBooks(){
+        getBorrowedBooks();
+        borrowedBook();
+        List<Book> borrowedBooksList = new ArrayList<>();
+        for(Map.Entry<String,BorrowedBook> entry : borrowed.entrySet()){
+            String id = entry.getKey();
+            if(books.containsKey(id)){
+                borrowedBooksList.add(books.get(id));
+            }
+        }
+
+        model = new DefaultTableModel();
+        for (Book book : borrowedBooksList) {
+            Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
+            model.addRow(rowData);
+        }
+        table.setModel(model);
 
     }
 
     public void displayOverdueBooks(){
+        getBorrowedBooks();
+        borrowedBook();
+        List<Book> borrowedBooksList = new ArrayList<>();
+        for(Map.Entry<String,BorrowedBook> entry : borrowed.entrySet()){
+            String id = entry.getKey();
+            if(books.containsKey(id) && getOverDue(entry.getValue().getDueDate())){
+                borrowedBooksList.add(books.get(id));
+            }
+        }
 
+        model = new DefaultTableModel();
+        for (Book book : borrowedBooksList) {
+            Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
+            model.addRow(rowData);
+        }
+        table.setModel(model);
+    }
+
+    private void getBooks(){
+        InMemoryBookStorage storage = new InMemoryBookStorage();
+        this.books = storage.getAllBooks();
+    }
+
+    private void getBorrowedBooks(){
+        InMemoryBorrowedBookStorage storage = new InMemoryBorrowedBookStorage();
+        borrowed = storage.getAll();
+    }
+
+    private void booksView(){
+        bookView = true;
+        borrowedBookView = false;
+    }
+
+    private void runRemoveBook(){
+        if(bookView && !borrowedBookView){
+            removeBook();
+        }
+    }
+
+    private void runReturnBook(){
+        if(!bookView && borrowedBookView){
+            returnBook();
+        }
+    }
+
+    private boolean getOverDue(String inputDate) {
+        boolean overDue = false;
+
+        LocalDate today = LocalDate.now();
+        LocalDate date = LocalDate.parse(inputDate, DateTimeFormatter.ISO_LOCAL_DATE);
+
+        if (date.isBefore(today) || date.isEqual(today)) {
+            overDue = true;
+        }
+
+        return overDue;
+    }
+
+    private void borrowedBook(){
+        bookView= false;
+        borrowedBookView =true;
     }
 }
