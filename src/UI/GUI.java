@@ -78,7 +78,20 @@ public class GUI implements  UserInterface {
 
     @Override
     public void searchBook() {
+        getBooks();
+        booksView();
+        String val = searchBookField.getText();
+        DefaultTableModel newModel = new DefaultTableModel(columnNames,0);
+        List<Book> bookList =new ArrayList<>(books.values());
+        for(Book book : bookList){
+            if(val.equals(book.getTitle())){
+                Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
+                newModel.addRow(rowData);
+            }
 
+        }
+        table.setModel(newModel);
+        model = newModel;
     }
 
     @Override
@@ -245,12 +258,13 @@ public class GUI implements  UserInterface {
             }
         }
 
-        model = new DefaultTableModel();
+        DefaultTableModel newModel = new DefaultTableModel();
         for (Book book : borrowedBooksList) {
             Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
-            model.addRow(rowData);
+            newModel.addRow(rowData);
         }
-        table.setModel(model);
+        table.setModel(newModel);
+        model = newModel;
 
     }
 
@@ -265,12 +279,13 @@ public class GUI implements  UserInterface {
             }
         }
 
-        model = new DefaultTableModel();
+        DefaultTableModel newModel = new DefaultTableModel(columnNames,0);
         for (Book book : borrowedBooksList) {
             Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
-            model.addRow(rowData);
+            newModel.addRow(rowData);
         }
-        table.setModel(model);
+        table.setModel(newModel);
+        model = newModel;
     }
 
     private void getBooks(){
