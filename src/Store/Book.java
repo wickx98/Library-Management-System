@@ -68,11 +68,7 @@ public class Book {
             System.out.println("Book not found.");
             return false;
         }
-        Book book = books.get(bookId);
-        if (borrowedBooks.containsKey(bookId)) {
-            System.out.println("Book is currently borrowed.");
-            return false;
-        }
+
         return true;
     }
     public void setAvailable(boolean available) {
