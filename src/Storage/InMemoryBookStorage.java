@@ -17,6 +17,7 @@ public class InMemoryBookStorage implements BookStorage {
 
     @Override
     public void addBook(Book book) {
+
         Database.books.put(book.getId(), book);
     }
 

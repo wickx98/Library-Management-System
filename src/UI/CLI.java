@@ -1,11 +1,20 @@
 package UI;
 
-import Storage.DatabaseBookStorage;
-import Storage.InMemoryBookStorage;
+import Storage.*;
 import Store.Book;
+import Store.BorrowedBook;
 import Store.Library;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import static Storage.Database.books;
+
+import static Storage.Database.borrowedBooks;
 
 public class CLI implements UserInterface {
     private Library library;
@@ -29,6 +38,10 @@ public class CLI implements UserInterface {
         System.out.println("3. Display book details");
         System.out.println("4. Search for a book by title");
         System.out.println("5. Remove a book by ID");
+        System.out.println("6. Borrow a book");
+        System.out.println("7. Return a book");
+        System.out.println("8. Display borrowed books");
+        System.out.println("9. Display overdue books");
         System.out.println("Enter 'exit' to quit the program.");
 
 
@@ -49,8 +62,9 @@ public class CLI implements UserInterface {
 
         Book book = new Book(id, title, author, publisher, publishedDate);
 
-        library.addBook(book);
 
+        BookStorage bookStorage = new InMemoryBookStorage();
+        bookStorage.addBook(book);
         System.out.println("Book added successfully!");
 
     }
@@ -58,7 +72,13 @@ public class CLI implements UserInterface {
     @Override
     public void displayBooks() {
 
-        library.displayBooks();
+        InMemoryBookStorage bookStorage = new InMemoryBookStorage();
+        bookStorage.getAllBooks();
+
+        for(Map.Entry<String,Book> entry : bookStorage.getAllBooks().entrySet() ){
+            System.out.println(entry.getValue().getTitle());
+        }
+
     }
 
     @Override
@@ -114,6 +134,18 @@ public class CLI implements UserInterface {
                 case "5":
                     removeBook();
                     break;
+                case "6":
+                    borrowBook();
+                    break;
+                case "7":
+                    returnBook();
+                    break;
+                case "8":
+                    displayBorrowedBooks();
+                    break;
+                case "9":
+                    displayOverdueBooks();
+                    break;
                 case "exit":
                     exit();
                     break;
@@ -124,5 +156,61 @@ public class CLI implements UserInterface {
             System.out.println();
             displayMenu();
         } while (!choice.equals("exit"));
+    }
+
+    @Override
+    public void borrowBook() {
+
+        System.out.print("Enter the book ID: ");
+        String bookId = scanner.nextLine();
+
+        if (books.containsKey(bookId)) {
+            Book book = books.get(bookId);
+
+            if (book.isAvailable(bookId)) {
+                System.out.print("Enter your name: ");
+                String borrowerName = scanner.nextLine();
+                System.out.print("Enter the date borrowed (dd/mm/yyyy): ");
+                String dateBorrowed = scanner.nextLine();
+                System.out.print("Enter the number of days to borrow: ");
+                int daysToBorrow = scanner.nextInt();
+
+                // calculate the due date
+                LocalDate borrowedDate = LocalDate.parse(dateBorrowed, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                LocalDate dueDate = borrowedDate.plusDays(daysToBorrow);
+
+                // update the book availability and due date
+                book.setAvailable(false);
+                book.setDueDate(dueDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+                BorrowedBook borrowedBook = new BorrowedBook(bookId,borrowerName,dateBorrowed,dueDate.toString(),"0");
+                // add the book to the borrowed books HashMap
+                BorrowedBookStorage storage = new InMemoryBorrowedBookStorage();
+
+                storage.addBorrowedBook(borrowedBook);
+
+                System.out.println("Book borrowed successfully!");
+            } else {
+                System.out.println("Sorry, this book is not available.");
+            }
+        } else {
+            System.out.println("Book with ID " + bookId + " not found.");
+        }
+
+    }
+
+    @Override
+    public void returnBook() {
+
+    }
+
+    @Override
+    public void displayBorrowedBooks() {
+
+    }
+
+    @Override
+    public void displayOverdueBooks() {
+
     }
 }

@@ -1,6 +1,5 @@
 package Storage;
 
-import Store.Book;
 import Store.BorrowedBook;
 
 public interface BorrowedBookStorage {

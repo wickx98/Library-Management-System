@@ -4,10 +4,10 @@ public class UIFactory {
     public static UserInterface UserInterfaceFactory(String[] args){
         UserInterface ui = null;
 
-        if(args[0].equals("CLI")){
+        if(args.length > 0 && args[0].equals("CLI")){
             ui = new CLI();
         }else{
-            ui = new GUI();
+            ui = new CLI();
         }
 
         return ui;

@@ -10,7 +10,7 @@ public class DatabaseBorrowedBookStorage implements BorrowedBookStorage{
 
     @Override
     public BorrowedBook getBook(String bookId) {
-        return null;
+        return Database.borrowedBooks.get(bookId);
     }
 
     @Override
