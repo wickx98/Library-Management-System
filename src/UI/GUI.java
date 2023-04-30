@@ -84,7 +84,7 @@ public class GUI implements  UserInterface {
         DefaultTableModel newModel = new DefaultTableModel(columnNames,0);
         List<Book> bookList =new ArrayList<>(books.values());
         for(Book book : bookList){
-            if(val.equals(book.getTitle())){
+            if(book.getTitle().toLowerCase().contains(searchBookField.getText().toLowerCase())){
                 Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
                 newModel.addRow(rowData);
             }
@@ -248,6 +248,7 @@ public class GUI implements  UserInterface {
     }
 
     public void displayBorrowedBooks(){
+        getBooks();
         getBorrowedBooks();
         borrowedBook();
         List<Book> borrowedBooksList = new ArrayList<>();
@@ -258,7 +259,7 @@ public class GUI implements  UserInterface {
             }
         }
 
-        DefaultTableModel newModel = new DefaultTableModel();
+        DefaultTableModel newModel = new DefaultTableModel(columnNames,0);
         for (Book book : borrowedBooksList) {
             Object[] rowData = {book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getPublishedDate()};
             newModel.addRow(rowData);

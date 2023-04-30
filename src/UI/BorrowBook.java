@@ -42,7 +42,7 @@ public class BorrowBook extends JFrame {
         JPanel dateBorrowedPanel = new JPanel();
         JLabel dateBorrowedLabel = new JLabel("Date Borrowed");
         dateBorrowedField = new JTextField(20);
-        dateBorrowedLabel.setText(formattedDate);
+        dateBorrowedField.setText(formattedDate);
         dateBorrowedPanel.add(dateBorrowedLabel);
         dateBorrowedPanel.add(dateBorrowedField);
 

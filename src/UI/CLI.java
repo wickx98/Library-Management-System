@@ -174,7 +174,7 @@ public class CLI implements UserInterface {
                 System.out.print("Enter the date Borrowed: ");
                 String dateBorrowed = scanner.nextLine();
 
-                System.out.print("Enter the dueDate: ");
+                System.out.print("Enter the dueDate (yyyy-MM-dd): ");
                 String dueDate = scanner.nextLine();
                 // calculate the due date
 

@@ -16,8 +16,8 @@ public class Main {
         UserInterface ui = UIFactory.UserInterfaceFactory(args);
         ui.start();
 
-        }
     }
+}
 
 
 

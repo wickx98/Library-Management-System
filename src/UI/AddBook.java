@@ -81,11 +81,12 @@ public class AddBook extends JFrame {
         if(Database.books == null){
             id = -1;
         }else {
-            id = Database.books.size() == 0 ? 0 : Integer.parseInt(Database.books.get(Database.books.size() - 1).getId());
+            id = Database.books.size() == 0 ? 0 : (Database.books.size()-1);
         }
         Book newBook = new Book(Integer.toString(id+1),titleField.getText(),authorField.getText(),publisherField.getText(),
                 publishedDateField.getText());
         InMemoryBookStorage inMemoryBookStorage = new InMemoryBookStorage();
+        inMemoryBookStorage.addBook(newBook);
         new MessageBox("Created");
         UserInterface ui = new GUI();
         ui.start();
