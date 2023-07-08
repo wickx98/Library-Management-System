@@ -9,7 +9,7 @@ public class MessageBox extends Frame {
         }
         MessageBox(String message){
             setSize(200,200);
-            setVisible(true);
+            setVisible(false);
             setLocationRelativeTo(null);
             JOptionPane.showMessageDialog(this,message,"Error",JOptionPane.INFORMATION_MESSAGE);
         }

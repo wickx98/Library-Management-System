@@ -1,0 +1,19 @@
+
+0
+java:S1220""Move this file to a named package.
+U
+java:S1854":Remove this useless assignment to local variable "reader".(¥™Âüÿÿÿÿ
+„
+java:S1130"nRemove the declaration of thrown exception 'java.sql.SQLException', as it cannot be thrown from method's body.(Á¯¦ş
+F
+java:S1481"+Remove this unused "reader" local variable.(¥™Âüÿÿÿÿ
+S
+java:S1128"8Remove this unused import 'Storage.InMemoryBookStorage'.(Ë¨ Ëûÿÿÿÿ
+B
+java:S1128"'Remove this unused import 'Store.Book'.(Ã÷ ıÿÿÿÿ
+E
+java:S1128"*Remove this unused import 'Store.Library'.(îÖÁÄøÿÿÿÿ
+>
+java:S1128"#Remove this unused import 'UI.CLI'.(äÓãîùÿÿÿÿ
+9
+java:S1128"#Remove this unused import 'UI.GUI'.(—÷ªø

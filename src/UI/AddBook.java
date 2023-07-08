@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import Storage.BookStorage;
 import Storage.Database;
 import Store.Book;
 import Storage.InMemoryBookStorage;
@@ -85,7 +87,7 @@ public class AddBook extends JFrame {
         }
         Book newBook = new Book(Integer.toString(id+1),titleField.getText(),authorField.getText(),publisherField.getText(),
                 publishedDateField.getText());
-        InMemoryBookStorage inMemoryBookStorage = new InMemoryBookStorage();
+        BookStorage inMemoryBookStorage = new InMemoryBookStorage();
         inMemoryBookStorage.addBook(newBook);
         new MessageBox("Created");
         UserInterface ui = new GUI();
